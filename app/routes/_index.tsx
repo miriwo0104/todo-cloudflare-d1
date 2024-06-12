@@ -1,4 +1,7 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
+import { loader } from "./loader";
+export { loader };
+import { useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -10,7 +13,14 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export default function Index() {
+  const users = useLoaderData<User[]>();
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <h1>Welcome to Remix on Cloudflare</h1>
@@ -30,6 +40,18 @@ export default function Index() {
           </a>
         </li>
       </ul>
+      <div>
+        <h2>Users</h2>
+        <ul>
+          {users.map((user: User) => (
+            <li key={user.id}>
+              <div>ID: {user.id}</div>
+              <div>NAME: {user.name}</div>
+              <div>EMAIL: {user.email}</div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
