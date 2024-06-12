@@ -15,10 +15,13 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "@prisma/adapter-d1": "^5.15.0",
+    "@prisma/client": "^5.15.0",
     "@remix-run/cloudflare": "^2.9.2",
     "@remix-run/cloudflare-pages": "^2.9.2",
     "@remix-run/react": "^2.9.2",
     "isbot": "^4.1.0",
+    "prisma": "^5.15.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -43,5 +46,8 @@
   },
   "engines": {
     "node": ">=20.0.0"
+  },
+  "volta": {
+    "node": "20.11.1"
   }
 }
