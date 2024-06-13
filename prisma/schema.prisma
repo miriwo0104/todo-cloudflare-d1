@@ -21,3 +21,22 @@ model users {
   name  String
 }
 
+model task_category_masters {
+  id    Int     @id @default(autoincrement())
+  name  String
+  tasks tasks[]
+}
+
+model tasks {
+  id                      Int      @id @default(autoincrement())
+  name                    String
+  memo                    String?
+  is_complete             Int
+  task_category_master_id Int
+  created_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+  deleted_at              DateTime?
+
+  // リレーション
+  task_category_master    task_category_masters @relation(fields: [task_category_master_id], references: [id])
+}
