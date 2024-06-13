@@ -26,7 +26,7 @@
 1. CloudFlareのD1（ローカル用）のマイグレーション
 
     ```sh
-    npm run local-migration
+    npm run local-migrate
     ```
 
 1. seedの実行
