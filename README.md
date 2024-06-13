@@ -26,7 +26,7 @@
 1. CloudFlareのD1（ローカル用）のマイグレーション
 
     ```sh
-    npx wrangler d1 migrations apply todo-cloudflare-d1 --local
+    npm run local-migrate
     ```
 
 1. seedの実行

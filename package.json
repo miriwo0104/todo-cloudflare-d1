@@ -13,7 +13,9 @@
     "typegen": "wrangler types",
     "preview": "npm run build && wrangler pages dev",
     "cf-typegen": "wrangler types",
-    "seed": "./execute_seeds.sh"
+    "seed": "./execute_seeds.sh",
+    "local-migration": "npx wrangler d1 migrations apply todo-cloudflare-d1 --local",
+    "remote-migration": "npx wrangler d1 migrations apply DB名 --remote"
   },
   "dependencies": {
     "@prisma/adapter-d1": "^5.15.0",
