@@ -3,47 +3,40 @@
 - 📖 [Remix docs](https://remix.run/docs)
 - 📖 [Remix Cloudflare docs](https://remix.run/guides/vite#cloudflare)
 
-## Development
+## Clone後の処理
 
-Run the dev server:
+1. .envの用意
+
+    ```sh
+    cp .env.example .env
+    ```
+
+1. パッケージのインストール
+
+    ```sh
+    npm install
+    ```
+
+1. CloudFlareのCLI設定
+
+    ```sh
+    npx wrangler login
+    ```
+
+1. CloudFlareのD1（ローカル用）のマイグレーション
+
+    ```sh
+    npx wrangler d1 migrations apply todo-cloudflare-d1 --local
+    ```
+
+## ローカルサーバー起動
 
 ```sh
 npm run dev
 ```
 
-To run Wrangler:
-
-```sh
-npm run build
-npm run start
-```
-
-## Typegen
-
-Generate types for your Cloudflare bindings in `wrangler.toml`:
-
-```sh
-npm run typegen
-```
-
-You will need to rerun typegen whenever you make changes to `wrangler.toml`.
-
-## Deployment
-
-> [!WARNING]  
-> Cloudflare does _not_ use `wrangler.toml` to configure deployment bindings.
-> You **MUST** [configure deployment bindings manually in the Cloudflare dashboard][bindings].
-
-First, build your app for production:
-
-```sh
-npm run build
-```
-
-Then, deploy your app to Cloudflare Pages:
+## デプロイ
 
 ```sh
 npm run deploy
 ```
-
-[bindings]: https://developers.cloudflare.com/pages/functions/bindings/
