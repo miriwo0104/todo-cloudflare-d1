@@ -13,8 +13,11 @@
     "typegen": "wrangler types",
     "preview": "npm run build && wrangler pages dev",
     "cf-typegen": "wrangler types",
-    "seed": "./execute_seeds.sh",
+    "local-seed": "./execute_seeds.sh",
     "local-migrate": "npx wrangler d1 migrations apply todo-cloudflare-d1 --local",
+    "local-migrate-fresh": "npx wrangler d1 execute todo-cloudflare-d1 --local --file ./seeds/drop_tables.sql",
+    "local-migrate-reset": "npm run local-migrate-fresh && npm run local-migrate",
+    "local-migrate-reset-and-seed": "npm run local-migrate-reset && npm run local-seed",
     "remote-migrate": "npx wrangler d1 migrations apply todo-cloudflare-d1 --remote"
   },
   "dependencies": {

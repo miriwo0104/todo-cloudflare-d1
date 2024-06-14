@@ -32,17 +32,31 @@
 1. seedの実行
 
     ```sh
-    npm run seed
+    npm run local-seed
     ```
 
-## ローカルサーバー起動
+## その他のコマンド
+
+### ローカルサーバー起動
 
 ```sh
 npm run dev
 ```
 
-## デプロイ
+### デプロイ
 
 ```sh
 npm run deploy
+```
+
+### ローカルDBのマイグレーションリセット
+
+```sh
+npm run local-migrate-reset
+```
+
+### ローカルDBのマイグレーションリセット + seed実行
+
+```sh
+npm run local-migrate-reset-and-seed
 ```
