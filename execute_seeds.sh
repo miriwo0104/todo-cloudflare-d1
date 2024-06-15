@@ -4,6 +4,7 @@
 sql_files=(
     # NOTE: seedファイルを追加したらこちらにも追加
     "./seeds/task_category_masters_seed.sql"
+    "./seeds/tasks_seed.sql"
 )
 
 # 各SQLファイルを実行
