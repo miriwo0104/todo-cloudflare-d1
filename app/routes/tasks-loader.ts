@@ -3,14 +3,24 @@ import type { LoaderFunctionArgs } from "@remix-run/cloudflare";
 export const loader = async ({ context, request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const searchParams = url.searchParams;
-  const isComplete = searchParams.get("isComplete");
+
+  const isCompleteParam: unknown = searchParams.get("isComplete");
+  const isComplete: boolean = isCompleteParam === "true" ? true : false;
+
+  const isDeletedParam: unknown = searchParams.get("isDeleted");
+  const isDeleted: boolean = isDeletedParam === "true" ? true : false;
+
+  const taskCategoryMasterIdParam: unknown = searchParams.get("taskCategoryMasterId");
+  const taskCategoryMasterId: number|null = taskCategoryMasterIdParam ? Number(taskCategoryMasterIdParam) : null;
+
   const isTrue = 1; // フラグONの意味 マジックナンバー申し訳ない。。
 
   try {
     const tasks = await context.db.tasks.findMany({
       where: {
-        deleted_at: null,
-        ...(isComplete !== null && { is_complete: isTrue }),
+        ...(isComplete && { is_complete: isTrue }),
+        ...(isDeleted && { deleted_at: {not: null}}),
+        ...(taskCategoryMasterId !== null && { task_category_master_id: taskCategoryMasterId }),
       },
     });
     return tasks;
