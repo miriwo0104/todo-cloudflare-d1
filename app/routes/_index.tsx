@@ -1,56 +1,58 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
-import { loader } from "./loader";
-export { loader };
-import { useLoaderData } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
+import { useState } from "react";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
+    { title: "Top" },
     {
       name: "description",
-      content: "Welcome to Remix on Cloudflare!",
+      content: "Top",
     },
   ];
 };
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-}
-
 export default function Index() {
-  const users = useLoaderData<User[]>();
+  const navigate = useNavigate();
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+
+  const handleSearchClick = () => {
+    const queryParams = new URLSearchParams();
+    if (isDeleted) {
+      queryParams.append("isDeleted", isDeleted.toString());
+    }
+    if (isComplete) {
+      queryParams.append("isComplete", isComplete.toString());
+    }
+    navigate(`/tasks?${queryParams.toString()}`); // クエリパラメーターを含めて遷移
+  };
+
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix on Cloudflare</h1>
-      <ul>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://developers.cloudflare.com/pages/framework-guides/deploy-a-remix-site/"
-            rel="noreferrer"
-          >
-            Cloudflare Pages Docs - Remix guide
-          </a>
-        </li>
-      </ul>
       <div>
-        <h2>Users</h2>
-        <ul>
-          {users.map((user: User) => (
-            <li key={user.id}>
-              <div>ID: {user.id}</div>
-              <div>NAME: {user.name}</div>
-              <div>EMAIL: {user.email}</div>
-            </li>
-          ))}
-        </ul>
+        <h2>タスク管理</h2>
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              checked={isDeleted}
+              onChange={(e) => setIsDeleted(e.target.checked)}
+            />
+            削除済みを表示
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              checked={isComplete}
+              onChange={(e) => setIsComplete(e.target.checked)}
+            />
+            完了済みを表示
+          </label>
+        </div>
+        <button onClick={handleSearchClick}>検索する</button>
       </div>
     </div>
   );
