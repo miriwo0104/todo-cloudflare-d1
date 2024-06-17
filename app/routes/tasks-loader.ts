@@ -10,8 +10,8 @@ export const loader = async ({ context, request }: LoaderFunctionArgs) => {
   const isDeletedParam: unknown = searchParams.get("isDeleted");
   const isDeleted: boolean = isDeletedParam === "true" ? true : false;
 
-  const taskCategoryMasterIdParam: unknown = searchParams.get("taskCategoryMasterId");
-  const taskCategoryMasterId: number|null = taskCategoryMasterIdParam ? Number(taskCategoryMasterIdParam) : null;
+  const taskCategoryMasterIdParams: string[] = searchParams.getAll("taskCategoryMasterId");
+  const taskCategoryMasterIds: number[] = taskCategoryMasterIdParams.map(id => Number(id));
 
   const isTrue = 1; // フラグONの意味 マジックナンバー申し訳ない。。
 
@@ -20,7 +20,7 @@ export const loader = async ({ context, request }: LoaderFunctionArgs) => {
       where: {
         ...(isComplete && { is_complete: isTrue }),
         ...(isDeleted && { deleted_at: {not: null}}),
-        ...(taskCategoryMasterId !== null && { task_category_master_id: taskCategoryMasterId }),
+        ...(taskCategoryMasterIds.length > 0 && { task_category_master_id: { in: taskCategoryMasterIds } }),
       },
     });
     return tasks;

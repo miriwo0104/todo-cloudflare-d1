@@ -18,7 +18,7 @@ export default function Index() {
   const navigate = useNavigate();
   const [isDeleted, setIsDeleted] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const [taskCategoryMasterId, setTaskCategoryMasterId] = useState(""); // 初期値を空文字列として定義
+  const [taskCategoryMasterIds, setTaskCategoryMasterId] = useState<string[]>([]); // 初期値を空配列に設定
 
   const handleSearchClick = () => {
     const queryParams = new URLSearchParams();
@@ -28,18 +28,28 @@ export default function Index() {
     if (isComplete) {
       queryParams.append("isComplete", isComplete.toString());
     }
-    if (taskCategoryMasterId !== "") {
-      queryParams.append("taskCategoryMasterId", taskCategoryMasterId.toString());
+    if (taskCategoryMasterIds.length >= 1) { // 配列の要素が1つ以上あるかで配列の中身をチェック
+      taskCategoryMasterIds.map((taskCategoryMasterId) => {
+        queryParams.append("taskCategoryMasterId", taskCategoryMasterId.toString());
+      });
     }
     navigate(`/tasks?${queryParams.toString()}`); // クエリパラメーターを含めて遷移
   };
 
   interface TaskCategoryMaster {
-  id: string;
-  name: string;
-}
+    id: string;
+    name: string;
+  }
 
   const taskCategoryMasters = useLoaderData<TaskCategoryMaster[]>();
+
+  const handleCheckboxChange = (id: string) => {
+    setTaskCategoryMasterId((prevIds) =>
+      prevIds.includes(id)
+        ? prevIds.filter((prevId) => prevId !== id)
+        : [...prevIds, id]
+    );
+  };
 
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
@@ -66,20 +76,18 @@ export default function Index() {
           </label>
         </div>
         <div>
-          <label>
-            タスクカテゴリ:
-            <select
-              onChange={(e) => setTaskCategoryMasterId(e.target.value)}
-              defaultValue=""
-            >
-              <option value="" disabled>選択してください</option>
-              {taskCategoryMasters.map((taskCategoryMaster) => (
-                <option key={taskCategoryMaster.id} value={taskCategoryMaster.id}>
-                  {taskCategoryMaster.name}
-                </option>
-              ))}
-            </select>
-          </label>
+          <div>カテゴリ</div>
+          {taskCategoryMasters.map((taskCategoryMaster: TaskCategoryMaster) => (
+            <label key={taskCategoryMaster.id}>
+              <input
+                type="checkbox"
+                value={taskCategoryMaster.id}
+                checked={taskCategoryMasterIds.includes(taskCategoryMaster.id)}
+                onChange={() => handleCheckboxChange(taskCategoryMaster.id)}
+              />
+              {taskCategoryMaster.name}
+            </label>
+          ))}
         </div>
         <button onClick={handleSearchClick}>検索する</button>
       </div>
