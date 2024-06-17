@@ -1,6 +1,8 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
-import { useNavigate } from "@remix-run/react";
+import { useNavigate, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
+import { loader } from "./task-category-masters-loader";
+export { loader };
 
 export const meta: MetaFunction = () => {
   return [
@@ -31,6 +33,13 @@ export default function Index() {
     }
     navigate(`/tasks?${queryParams.toString()}`); // クエリパラメーターを含めて遷移
   };
+
+  interface TaskCategoryMaster {
+  id: string;
+  name: string;
+}
+
+  const taskCategoryMasters = useLoaderData<TaskCategoryMaster[]>();
 
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
@@ -64,9 +73,11 @@ export default function Index() {
               defaultValue=""
             >
               <option value="" disabled>選択してください</option>
-              <option value="1">仕事</option>
-              <option value="2">勉強</option>
-              <option value="3">その他</option>
+              {taskCategoryMasters.map((taskCategoryMaster) => (
+                <option key={taskCategoryMaster.id} value={taskCategoryMaster.id}>
+                  {taskCategoryMaster.name}
+                </option>
+              ))}
             </select>
           </label>
         </div>
