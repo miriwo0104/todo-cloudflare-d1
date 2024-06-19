@@ -29,6 +29,7 @@ pages_build_output_dir = "./build/client"
 binding = "DB"
 database_name = "todo-cloudflare-d1"
 database_id = "4b6eada0-7ef7-4717-87ad-074b0fd04ccc"
+preview_database_id = "c01ab0d7-7e2b-4fad-af8c-b2c650e7fc6c"
 
 # Bind a Durable Object. Durable objects are a scale-to-zero compute primitive based on the actor model.
 # Durable Objects can live for as long as needed. Use these when you need a long-running "server", such as in realtime apps.
@@ -67,6 +68,15 @@ database_id = "4b6eada0-7ef7-4717-87ad-074b0fd04ccc"
 # Docs: https://developers.cloudflare.com/pages/functions/wrangler-configuration#environment-specific-overrides
 
 ######## PREVIEW environment config ########
+
+[env.preview]
+name = "todo-cloudflare-d1-preview"
+compatibility_date = "2024-06-05"
+
+[[env.preview.d1_databases]]
+binding = "DB"
+database_name = "todo-cloudflare-d1-preview"
+database_id = "c01ab0d7-7e2b-4fad-af8c-b2c650e7fc6c"
 
 # [env.preview.vars]
 # API_KEY = "xyz789"
