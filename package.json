@@ -13,12 +13,16 @@
     "typegen": "wrangler types",
     "preview": "npm run build && wrangler pages dev",
     "cf-typegen": "wrangler types",
-    "local-seed": "./execute_seeds.sh",
+    "local-seed": "./execute_seeds.sh --local",
     "local-migrate": "npx wrangler d1 migrations apply todo-cloudflare-d1 --local",
     "local-migrate-fresh": "npx wrangler d1 execute todo-cloudflare-d1 --local --file ./seeds/drop_tables.sql",
     "local-migrate-reset": "npm run local-migrate-fresh && npm run local-migrate",
     "local-migrate-reset-and-seed": "npm run local-migrate-reset && npm run local-seed",
-    "remote-migrate": "npx wrangler d1 migrations apply todo-cloudflare-d1 --remote"
+    "remote-seed": "./execute_seeds.sh --remote",
+    "remote-migrate": "npx wrangler d1 migrations apply todo-cloudflare-d1 --remote",
+    "remote-migrate-fresh": "npx wrangler d1 execute todo-cloudflare-d1 --remote --file ./seeds/drop_tables.sql",
+    "remote-migrate-reset": "npm run remote-migrate-fresh && npm run remote-migrate",
+    "remote-migrate-reset-and-seed": "npm run remote-migrate-reset && npm run remote-seed"
   },
   "dependencies": {
     "@prisma/adapter-d1": "^5.15.0",

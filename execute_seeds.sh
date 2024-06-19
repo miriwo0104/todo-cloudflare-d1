@@ -9,5 +9,5 @@ sql_files=(
 
 # 各SQLファイルを実行
 for file in "${sql_files[@]}"; do
-    npx wrangler d1 execute todo-cloudflare-d1 --local --file "$file"
+    npx wrangler d1 execute todo-cloudflare-d1 $1 --file "$file"
 done
