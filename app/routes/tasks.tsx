@@ -21,6 +21,10 @@ interface Task {
   task_category_master_id: string;
   created_at: string;
   updated_at: string;
+  task_category_master: {
+    id: string;
+    name: string;
+  };
 }
 
 export default function Index() {
@@ -35,7 +39,7 @@ export default function Index() {
             <div>name: {task.name}</div>
             <div>memo: {task.memo}</div>
             <div>is complete: {task.is_complete}</div>
-            <div>task category master id: {task.task_category_master_id}</div>
+            <div>task category: {task.task_category_master.name}</div>
             <div>created at: {task.created_at}</div>
             <div>updated at: {task.updated_at}</div>
           </li>

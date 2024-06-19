@@ -22,6 +22,9 @@ export const loader = async ({ context, request }: LoaderFunctionArgs) => {
         ...(isDeleted && { deleted_at: {not: null}}),
         ...(taskCategoryMasterIds.length > 0 && { task_category_master_id: { in: taskCategoryMasterIds } }),
       },
+      include: {
+        task_category_master: true, // schema.prismaで定義したリレーションを指定
+      },
     });
     return tasks;
   } catch (error) {
