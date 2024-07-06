@@ -15,7 +15,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const taskListInfos = useLoaderData<TaskListInfos[]>();
+  const taskListInfos = useLoaderData<TaskListInfos>();
   const tasks = taskListInfos.tasks;
   const tasksCount = taskListInfos.tasksCount;
   const pageSize = taskListInfos.pageSize;
