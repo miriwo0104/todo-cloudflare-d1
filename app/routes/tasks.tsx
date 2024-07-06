@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
+import type { TaskListInfos } from "~/types";
 import { loader } from "./tasks-loader";
 export { loader };
 import { useLoaderData } from "@remix-run/react";
@@ -13,22 +14,13 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-interface Task {
-  id: string;
-  name: string;
-  memo: string;
-  is_complete: boolean;
-  task_category_master_id: string;
-  created_at: string;
-  updated_at: string;
-  task_category_master: {
-    id: string;
-    name: string;
-  };
-}
-
 export default function Index() {
-  const tasks = useLoaderData<Task[]>();
+  const taskListInfos = useLoaderData<TaskListInfos[]>();
+  const tasks = taskListInfos.tasks;
+  const tasksCount = taskListInfos.tasksCount;
+  const pageSize = taskListInfos.pageSize;
+  const nowPage = taskListInfos.nowPage;
+  const totalPage = Math.ceil(tasksCount / pageSize); // 切り上げで整数を返す
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <h1>tasks</h1>
@@ -45,6 +37,9 @@ export default function Index() {
           </li>
         ))}
       </ul>
+      <div>
+        <p>{nowPage} / {totalPage}</p>
+      </div>
     </div>
   );
 }
