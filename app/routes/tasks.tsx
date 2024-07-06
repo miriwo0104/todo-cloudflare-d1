@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/cloudflare";
-import type { TaskListInfos } from "~/types";
+import type { TaskListInfos, Task } from "~/types";
 import { loader } from "./tasks-loader";
 export { loader };
 import { useLoaderData } from "@remix-run/react";
