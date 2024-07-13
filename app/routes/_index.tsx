@@ -19,8 +19,9 @@ export default function Index() {
   const [isDeleted, setIsDeleted] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [taskCategoryMasterIds, setTaskCategoryMasterId] = useState<string[]>([]); // 初期値を空配列に設定
+  const [isSearchButtonDisabled, setIsSearchButtonDisabled] = useState(false);
 
-  const handleSearchClick = () => {
+  const handleSearchClick = async () => {
     const queryParams = new URLSearchParams();
     if (isDeleted) {
       queryParams.append("isDeleted", isDeleted.toString());
@@ -33,7 +34,9 @@ export default function Index() {
         queryParams.append("taskCategoryMasterId", taskCategoryMasterId.toString());
       });
     }
-    navigate(`/tasks?${queryParams.toString()}`); // クエリパラメーターを含めて遷移
+    setIsSearchButtonDisabled(true);
+    await navigate(`/tasks?${queryParams.toString()}`); // クエリパラメーターを含めて遷移
+    setIsSearchButtonDisabled(false);
   };
 
   interface TaskCategoryMaster {
@@ -89,7 +92,10 @@ export default function Index() {
             </label>
           ))}
         </div>
-        <button onClick={handleSearchClick}>検索する</button>
+        <button
+          onClick={handleSearchClick}
+          disabled={isSearchButtonDisabled}
+        >検索する</button>
       </div>
     </div>
   );
