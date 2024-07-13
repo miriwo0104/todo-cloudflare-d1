@@ -18,6 +18,12 @@ export const loader = async ({ context, request }: LoaderFunctionArgs) => {
   const nowPage: number = Number(searchParams.get("page")) || constants.DEFAULT_PAGE; // 設定されていなかったらデフォルト値の1を設定
   const pageSize: number = constants.DEFAULT_PAGE_SIZE; // 1ページあたりの表示数
 
+  interface WhereCondition {
+    is_complete?: number;
+    deleted_at?: { not: null };
+    task_category_master_id?: { in: number[] };
+  }
+
   // whereの条件を定義
   const whereCondition = {
     ...(isComplete && { is_complete: constants.IS_TRUE }),
@@ -27,7 +33,7 @@ export const loader = async ({ context, request }: LoaderFunctionArgs) => {
 
   try {
     const tasks = await context.db.tasks.findMany({
-      where: whereCondition,
+      where: whereCondition as WhereCondition,
       include: {
         task_category_master: true, // schema.prismaで定義したリレーションを指定
       },
@@ -35,7 +41,7 @@ export const loader = async ({ context, request }: LoaderFunctionArgs) => {
       take: pageSize, // 取得するレコード数
     });
     const tasksCount = await context.db.tasks.count({
-      where: whereCondition,
+      where: whereCondition as WhereCondition,
     });
     return {
       tasks,
